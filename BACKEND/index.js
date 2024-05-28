@@ -7,6 +7,7 @@ const dotenv = require("dotenv")
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
+const api = process.env.API_URL;
 
 dotenv.config();
 
@@ -32,6 +33,11 @@ mongoose.connect(process.env.MONGO_COMM)
         console.log(error);
     })
 
-app.get("/", (req, res) => {
-res.send("e-commerce app backend started");
+app.get(`${api}/products`, (req, res) => {
+    const products = {
+        id: 1,
+        name: 'computer',
+        image: 'some_url',
+    }
+    res.send("e-commerce app backend started");
 })
