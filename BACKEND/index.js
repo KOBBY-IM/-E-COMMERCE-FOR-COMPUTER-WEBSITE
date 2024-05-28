@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const userRoute = require("./Routes/user");
 const authRoute = require("./Routes/auth");
 
+
 // Environment variables
 dotenv.config();
 
