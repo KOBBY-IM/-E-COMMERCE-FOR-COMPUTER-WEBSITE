@@ -1,43 +1,36 @@
-const PORT = process.env.PORT
 const express = require("express");
 const app = express();
-const cors = require("cors");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv")
-const jwt = require("jsonwebtoken");
-const multer = require("multer");
-const path = require("path");
-const api = process.env.API_URL;
+const dotenv = require("dotenv");
+const userRoute = require("./Routes/user");
+const authRoute = require("./Routes/auth");
 
+
+// Environment variables
 dotenv.config();
 
-app.use(express.json());
-app.use(cors());
+const PORT = process.env.PORT || 3000
 
-app.listen(process.env.PORT, (error) => {
-    if (!error) {
-        console.log(`listening on port ${PORT}`);
-    }
-    else {
-        console.log(`Error: `+error);
-    }
-})
-
-
-// mongodb connection
+// MongoDB connection
 mongoose.connect(process.env.MONGO_COMM)
-   .then(() => {
-        console.log("connected to mongodb");
+    .then(() => {
+        console.log("Connected to MongoDB");
     })
     .catch((error) => {
         console.log(error);
-    })
+    });
 
-app.get(`${api}/products`, (req, res) => {
-    const products = {
-        id: 1,
-        name: 'computer',
-        image: 'some_url',
-    }
-    res.send("e-commerce app backend started");
-})
+// Middleware
+app.use(express.json());
+
+// Routes
+
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+
+
+
+// Start the server
+app.listen(PORT, () =>{
+        console.log(`Listening on port ${PORT}`);
+});
