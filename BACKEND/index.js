@@ -1,4 +1,3 @@
-const PORT = require("dotenv").config().PORT;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -8,6 +7,8 @@ const authRoute = require("./Routes/auth");
 
 // Environment variables
 dotenv.config();
+
+const PORT = process.env.PORT || 3000
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_COMM)
@@ -29,6 +30,6 @@ app.use("/api/users", userRoute);
 
 
 // Start the server
-app.listen(process.env.PORT, () =>{
+app.listen(PORT, () =>{
         console.log(`Listening on port ${PORT}`);
 });
