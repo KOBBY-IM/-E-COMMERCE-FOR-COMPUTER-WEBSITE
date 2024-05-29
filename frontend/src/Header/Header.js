@@ -1,5 +1,5 @@
 import React from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 import { NavItem } from './NavItem';
 import logo from '../assets/logo-white.png'
