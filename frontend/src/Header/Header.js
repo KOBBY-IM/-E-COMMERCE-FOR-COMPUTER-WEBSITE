@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 import { NavItem } from './NavItem';
@@ -13,17 +14,16 @@ class Header extends React.Component {
     return (
       <div className={css(styles.header)}>
         <div>
-          <a href="#">
+          <Link to="/">
             <img className={css(styles.logo)} src={logo} alt='Logo' />
-          </a>
+          </Link>
         </div>
         <div>
           <nav>
             <ul className={css(styles.navBar)}>
-              <NavItem link='#' name='Home'/>
-              <NavItem link='#Product' name='Products'/>
-              <NavItem link='#Profil' name='Profil'/>
-              <NavItem link='#ContactUs' name='Contact Us'/>
+              <NavItem to='/' name='Home'/>
+              <NavItem to='/profil' name='Profil'/>
+              <NavItem to='/cart' name='Cart'/>
             </ul>
           </nav>
         </div>
