@@ -1,5 +1,3 @@
-// Entry point for the backend application
-const PORT = 3000; // Define the port number for the server
 
 // Import required modules
 const express = require("express"); // Import the Express framework
@@ -19,7 +17,7 @@ const upload = multer(); // Create an instance of Multer for file uploads
 dotenv.config();
 
 // Connect to MongoDB database
-mongoose.connect("mongodb+srv://<Mark Muriithi>:<75NfKey.5RffjF8>@cluster0.kn2ib6r.mongodb.net/e-commerce")
+mongoose.connect(process.env.MONGO_COMM)
     .then(() => {
         console.log("Connected to MongoDB");
     })
@@ -42,14 +40,14 @@ app.get("/", (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, (error) => {
+app.listen(process.env.PORT || 3000, (error) => {
     if (!error) {
-        console.log("Server Running on Port" + PORT);
+        console.log("Server Running on Port " + process.env.PORT);
     } else {
         console.log("Error: " + error);
     }
 });
-
+ 
 // Configure image storage using Multer
 const storage = multer.diskStorage({
     destination: './upload/images', // Define the destination folder for uploaded images
