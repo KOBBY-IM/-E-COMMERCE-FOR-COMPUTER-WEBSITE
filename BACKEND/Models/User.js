@@ -17,14 +17,22 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
+        match: [/\S+@\S+\.\S+/, 'Please use a valid email address.'] // Validate email format
     },
     passwordHash: {
         type: String,
         required: true,
     },
-    phone: {
+    phoneCountryCode: {
         type: String,
         required: true,
+        match: [/^\+\d{1,3}$/, 'Please use a valid country code.'] // Validate country code format
+    },
+    phoneNumber: {
+        type: String,
+        required: true,
+        match: [/^\d{10}$/, 'Please use a valid 10-digit phone number.'] // Validate phone number format
     },
     isAdmin: {
         type: Boolean,
@@ -38,7 +46,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    zip :{
+    zip: {
         type: String,
         default: ''
     },
@@ -50,15 +58,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     }
-
+}, {
+    timestamps: true, // Automatically manage createdAt and updatedAt fields
 });
 
+// Virtual field for id
 userSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
 
+// Ensure virtual fields are serialized
 userSchema.set('toJSON', {
     virtuals: true,
 });
+
+// Indexes
+userSchema.index({ email: 1 }, { unique: true }); // Ensure email index for faster searches
 
 module.exports = mongoose.model("User", userSchema);

@@ -6,11 +6,11 @@ const jwt = require("jsonwebtoken");
 // Register
 router.post("/register", async (req, res) => {
     try {
-        const { firstName, lastName, email, password, phone, isAdmin, street, apartment, zip, city, country, username } = req.body;
+        const { firstName, lastName, email, password, phoneCountryCode, phoneNumber, isAdmin, street, apartment, zip, city, country, username } = req.body;
 
         // Validate incoming data
-        if (!firstName || !lastName || !email || !password || !username) {
-            return res.status(400).json({ message: "First name, last name, email, password, and username are required" });
+        if (!firstName || !lastName || !email || !password || !phoneCountryCode || !phoneNumber || !username) {
+            return res.status(400).json({ message: "First name, last name, email, password, phone country code, phone number, and username are required" });
         }
 
         // Check if user already exists
@@ -27,7 +27,8 @@ router.post("/register", async (req, res) => {
             lastName,
             email,
             passwordHash,
-            phone,
+            phoneCountryCode,
+            phoneNumber,
             isAdmin,
             street,
             apartment,
