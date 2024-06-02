@@ -1,4 +1,3 @@
-
 // Import required modules
 const express = require("express"); // Import the Express framework
 const app = express(); // Create an instance of the Express application
@@ -10,6 +9,7 @@ const cors = require("cors"); // Import CORS for enabling cross-origin requests
 const dotenv = require("dotenv"); // Import dotenv for environment variables
 const userRoute = require("./Routes/user"); // Import user routes
 const authRoute = require("./Routes/auth"); // Import authentication routes
+const productRoute = require("./Routes/product"); // Import product routes
 const bcrypt = require("bcrypt"); // Import bcrypt for password hashing
 const upload = multer(); // Create an instance of Multer for file uploads
 
@@ -27,12 +27,12 @@ mongoose.connect(process.env.MONGO_COMM)
 
 // Middleware setup
 app.use(express.json()); // Parse incoming JSON data
+app.use(cors()); // Enable CORS
 
 // Define routes
-app.use(express.json()); // Parse JSON data
-app.use(cors()); // Enable CORS
 app.use("/api/auth", authRoute); // Use authentication routes
 app.use("/api/users", userRoute); // Use user routes
+app.use("/api/products", productRoute); // Use product routes
 
 // Define a route for the root endpoint
 app.get("/", (req, res) => {
@@ -40,19 +40,16 @@ app.get("/", (req, res) => {
 });
 
 // Start the server
-app.listen(process.env.PORT || 3000, (error) => {
-    if (!error) {
-        console.log("Server Running on Port " + process.env.PORT);
-    } else {
-        console.log("Error: " + error);
-    }
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server Running on Port ${port}`);
 });
- 
+
 // Configure image storage using Multer
 const storage = multer.diskStorage({
     destination: './upload/images', // Define the destination folder for uploaded images
     filename: (req, file, cb) => {
-        return cb(null, '${file.fieldname}_${Date.now()}${path.extname(file.originalname)'); // Define the filename for uploaded images
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`); // Define the filename for uploaded images
     }
 });
 
@@ -63,7 +60,6 @@ app.use('/images', express.static('upload/images'));
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        image_url: 'http://localhost:${port}/images/${req.file.filename}'
+        image_url: `http://localhost:${port}/images/${req.file.filename}`
     });
 });
-
