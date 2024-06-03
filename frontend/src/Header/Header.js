@@ -22,7 +22,7 @@ class Header extends React.Component {
           <nav>
             <ul className={css(styles.navBar)}>
               <NavItem to='/' name='Home'/>
-              <NavItem to='/profil' name='Profil'/>
+              <NavItem to='/login' name='Profil'/>
               <NavItem to='/cart' name='Cart'/>
             </ul>
           </nav>

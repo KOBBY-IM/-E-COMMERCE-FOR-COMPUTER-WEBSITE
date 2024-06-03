@@ -6,6 +6,8 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Products from '../ProductsList/Products';
 import Login from '../Login/Login';
+import SignUp from '../Login/SignUp';
+import Profil from '../Profil/Profil';
 import cardImage from '../assets/favicon.png';
 
 class App extends React.Component {
@@ -18,6 +20,10 @@ class App extends React.Component {
       {id: 3, title: 'Hp pavilion', img: cardImage, proc: 'core i7', memory: 100, memoryType: 'SSD', ram: 8},
       {id: 4, title: 'MacBook', img: cardImage, proc: 'core i7', memory: 1000, memoryType: 'SSD', ram: 8},
     ];
+
+    this.state = {
+      isLoggedIn: false,
+    }
   }
 
 
@@ -28,20 +34,14 @@ class App extends React.Component {
         <Routes>
           <Route path='/' 
           element={
-          <div className={css(styles.cardList)}>
             <div className={css(styles.card)}>
-             <Products listProducts={this.listProducts}/>
+              <Products listProducts={this.listProducts}/>
             </div>
-          </div>
-          }/>
-          <Route exact path='/profil' element={<Login />}/>
+          }
+          />
+          <Route path='/login' element={<Login />}/>
+          <Route path='/signup' element={<SignUp />}/>
         </Routes>
-        {/* <Login />
-        <div className={css(styles.cardList)}>
-          <div className={css(styles.card)}>
-            <Products listProducts={this.listProducts}/>
-          </div>
-        </div> */}
         <Footer />
       </div>
   );
