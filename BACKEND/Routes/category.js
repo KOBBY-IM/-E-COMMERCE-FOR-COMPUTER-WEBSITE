@@ -1,42 +1,42 @@
 const router = require("express").Router();
-const Order = require('../Models/Order');
+const Category = require('../Models/Category');
 
-// Get all orders
+// Get all categories
 router.get('/', async (req, res) => {
     try {
-        const orders = await Order.find().populate('user', 'name');
-        res.status(200).json(orders);
+        const categories = await Category.find();
+        res.status(200).json(categories);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// Create a new order
+// Create a new category
 router.post('/', async (req, res) => {
-    const order = new Order(req.body);
+    const category = new Category(req.body);
     try {
-        const savedOrder = await order.save();
-        res.status(201).json(savedOrder);
+        const savedCategory = await category.save();
+        res.status(201).json(savedCategory);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
 
-// Update an order
+// Update a category
 router.patch('/:id', async (req, res) => {
     try {
-        const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json(updatedOrder);
+        const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updatedCategory);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
 
-// Delete an order
+// Delete a category
 router.delete('/:id', async (req, res) => {
     try {
-        await Order.findByIdAndRemove(req.params.id);
-        res.json({ message: 'Order deleted' });
+        await Category.findByIdAndRemove(req.params.id);
+        res.json({ message: 'Category deleted' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
