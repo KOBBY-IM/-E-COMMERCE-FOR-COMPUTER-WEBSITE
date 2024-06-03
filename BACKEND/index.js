@@ -7,11 +7,19 @@ const multer = require("multer"); // Import Multer for handling file uploads
 const path = require("path"); // Import the path module for file path operations
 const cors = require("cors"); // Import CORS for enabling cross-origin requests
 const dotenv = require("dotenv"); // Import dotenv for environment variables
+const bcrypt = require("bcrypt"); // Import bcrypt for password hashing
+const upload = multer(); // Create an instance of Multer for file uploads
+
+
+// Import routes
 const userRoute = require("./Routes/user"); // Import user routes
 const authRoute = require("./Routes/auth"); // Import authentication routes
 const productRoute = require("./Routes/product"); // Import product routes
-const bcrypt = require("bcrypt"); // Import bcrypt for password hashing
-const upload = multer(); // Create an instance of Multer for file uploads
+const categoryRoute = require("./Routes/category"); // Import category routes
+const orderRoute = require("./Routes/order"); // Import order routes
+const cartRoute = require("./Routes/cart"); // Import cart routes
+
+
 
 // Load environment variables from a .env file
 dotenv.config();
@@ -33,6 +41,9 @@ app.use(cors()); // Enable CORS
 app.use("/api/auth", authRoute); // Use authentication routes
 app.use("/api/users", userRoute); // Use user routes
 app.use("/api/products", productRoute); // Use product routes
+app.use("/api/categories", categoryRoute); // Use category routes
+app.use("/api/orders", orderRoute); // Use order routes
+app.use("/api/cart", cartRoute); // Use cart routes
 
 // Define a route for the root endpoint
 app.get("/", (req, res) => {
