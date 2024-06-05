@@ -1,5 +1,5 @@
 {
-  "name": "task_0",
+  "name": "frontend",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
@@ -15,6 +15,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-router-dom": "^6.23.1",
     "style-loader": "^2.0.0"
   },
   "scripts": {

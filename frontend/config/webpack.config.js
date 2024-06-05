@@ -1,5 +1,4 @@
 const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -50,11 +49,4 @@ module.exports = {
     maxAssetSize: 1000000,
   },
   devtool: 'inline-source-map',
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     name: "index.html",
-  //     inject: false,
-  //     template: "./dist/index.html",
-  //   }),
-  // ],
 };

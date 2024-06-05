@@ -5,42 +5,81 @@ const jwt = require("jsonwebtoken");
 
 // Register
 router.post("/register", async (req, res) => {
-    const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 10),
-    });
     try {
+        const { firstName, lastName, email, password, phoneCountryCode, phoneNumber, isAdmin, street, apartment, zip, city, country, username } = req.body;
+
+        // Validate incoming data
+        if (!firstName || !lastName || !email || !password || !phoneCountryCode || !phoneNumber || !username) {
+            return res.status(400).json({ message: "First name, last name, email, password, phone country code, phone number, and username are required" });
+        }
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        const passwordHash = bcrypt.hashSync(password, 10);
+        
+        const newUser = new User({
+            username,
+            firstName,
+            lastName,
+            email,
+            passwordHash,
+            phoneCountryCode,
+            phoneNumber,
+            isAdmin,
+            street,
+            apartment,
+            zip,
+            city,
+            country,
+        });
+
         const savedUser = await newUser.save();
         res.status(200).json(savedUser);
     } catch (err) {
-        res.status(500).json(err);
+        console.error(err);
+        res.status(500).json({ message: "Error registering user", error: err });
     }
 });
 
-
 // Login
 router.post("/login", async (req, res) => {
-    const user = await User.findOne({email: req.body.email})
-    const JWT_SECRET = process.env.secret;
-    if(!user) {
-        return res.status(400).send('The user not found');
-    }
+    try {
+        const { email, password } = req.body;
+        const JWT_SECRET = process.env.JWT_SECRET;
 
-    if(user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
+        // Validate incoming data
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        const isPasswordCorrect = bcrypt.compareSync(password, user.passwordHash);
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ message: 'Incorrect password' });
+        }
+
         const token = jwt.sign(
             {
                 userId: user.id,
                 isAdmin: user.isAdmin
             },
-            secret,
-            {expiresIn : '1d'}
-        )
-       
-        res.status(200).send({user: user.email , token: token}) 
-    } else {
-       res.status(400).send('password is wrong!');
-    }
+            JWT_SECRET,
+            { expiresIn: '1d' }
+        );
 
+        res.status(200).json({ user: user.email, token });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error logging in", error: err });
+    }
 });
+
 module.exports = router;
