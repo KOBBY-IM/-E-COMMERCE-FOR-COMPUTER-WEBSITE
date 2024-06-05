@@ -25,7 +25,11 @@ router.post('/', async (req, res) => {
 // Update a category
 router.patch('/:id', async (req, res) => {
     try {
-        const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedCategory = await Category.findOneAndUpdate(
+            { _id: req.params.id },
+            req.body,
+            { new: true, runValidators: true }
+        );
         res.json(updatedCategory);
     } catch (error) {
         res.status(400).json({ message: error.message });

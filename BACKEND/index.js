@@ -18,6 +18,8 @@ const productRoute = require("./Routes/product"); // Import product routes
 const categoryRoute = require("./Routes/category"); // Import category routes
 const orderRoute = require("./Routes/order"); // Import order routes
 const cartRoute = require("./Routes/cart"); // Import cart routes
+const reviewRoute = require("./Routes/review"); // Import review routes
+const wishlistRoute = require("./Routes/wishlist"); // Import wishlist routes
 
 
 
@@ -41,9 +43,12 @@ app.use(cors()); // Enable CORS
 app.use("/api/auth", authRoute); // Use authentication routes
 app.use("/api/users", userRoute); // Use user routes
 app.use("/api/products", productRoute); // Use product routes
-app.use("/api/categories", categoryRoute); // Use category routes
-app.use("/api/orders", orderRoute); // Use order routes
+app.use("/api/category", categoryRoute); // Use category routes
+app.use("/api/order", orderRoute); // Use order routes
 app.use("/api/cart", cartRoute); // Use cart routes
+app.use("/api/review", reviewRoute); // Use review routes
+app.use("/api/wishlist", wishlistRoute); // Use wishlist routes
+
 
 // Define a route for the root endpoint
 app.get("/", (req, res) => {
