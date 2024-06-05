@@ -1,3 +1,46 @@
+<<<<<<< HEAD
+const {category, Category} = require('../models/category');
+const express = require('express');
+const { Product } = require('../models/product');
+const route = express.Router();
+
+route.get('/', async (req, res) =>{
+    const categoryList = await Category.find();
+
+    if(!categoryList) {
+        res.status(5000).json({success: false})
+    }
+    res.send(productList);
+})
+
+route.post('/', async (req, res) =>{
+    const category = await category.findById(req.body.Category);
+    if(!category) return res.status(400).send('Invalid Category')
+
+    const product = new Product({
+        name: req.body.name,
+        description: req.body.description,
+        richDescription: req.body.richDescription,
+        image: req.body.image,
+        brand: req.body.brand,
+        price: req.body.price,
+        category: req.body.category,
+        countInStock: req.body.countInStock,
+        rating: req.body.rating,
+        numReviews: req.body.numReviews,
+        isFeatured: req.body.isFeatured,
+    })
+
+    product = await product.save();
+    
+    if(!product)
+        return res.status(500).send('The product cannot be created')
+
+    res.send(product);
+})
+
+module.exports =router;
+=======
 const express = require('express');
 const router = express.Router();
 const Product = require('../Models/Product');
@@ -73,3 +116,4 @@ async function getProduct(req, res, next) {
 }
 
 module.exports = router;
+>>>>>>> c17ecd9cdf6b00c9ed68190ea679dfa7e6409f3c
