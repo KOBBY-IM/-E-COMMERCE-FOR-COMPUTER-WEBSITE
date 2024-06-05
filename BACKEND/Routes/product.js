@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 const {category, Category} = require('../models/category');
 const express = require('express');
 const { Product } = require('../models/product');
@@ -40,10 +40,7 @@ route.post('/', async (req, res) =>{
 })
 
 module.exports =router;
-=======
-const express = require('express');
-const router = express.Router();
-const Product = require('../Models/Product');
+
 
 // Get all products
 router.get('/', async (req, res) => {
@@ -116,4 +113,3 @@ async function getProduct(req, res, next) {
 }
 
 module.exports = router;
->>>>>>> c17ecd9cdf6b00c9ed68190ea679dfa7e6409f3c
