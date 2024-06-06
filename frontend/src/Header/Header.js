@@ -2,8 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
-import { NavItem } from './NavItem';
-import logo from '../assets/logo-white.png'
+import NavItem from './NavItem';
+import logo from '../assets/logo-white.png';
+import {
+  SvgHome,
+  SvgCart,
+  SvgProfil,
+  SvgWishlist,
+  SvgSearch} from '../SVG/svg';
 
 class Header extends React.Component {
   constructor(props) {
@@ -11,6 +17,7 @@ class Header extends React.Component {
   }
 
   render() {
+    const {toogleDrawer} = this.props;
     return (
       <div className={css(styles.header)}>
         <div>
@@ -21,9 +28,11 @@ class Header extends React.Component {
         <div>
           <nav>
             <ul className={css(styles.navBar)}>
-              <NavItem to='/' name='Home'/>
-              <NavItem to='/login' name='Profil'/>
-              <NavItem to='/cart' name='Cart'/>
+              {/* <NavItem to='/' children={<SvgSearch />}/> */}
+              <NavItem to='/' children={<SvgHome />}/>
+              <NavItem to='/login' children={<SvgProfil />} />
+              {/* <NavItem to='/' children={<SvgWishlist />}/> */}
+              <NavItem to='/cart' children={<SvgCart />}/>
             </ul>
           </nav>
         </div>
@@ -41,6 +50,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '400px',
     paddingLeft: '0px',
+    fill: 'green',
   },
   header: {
     display: 'flex',
@@ -52,6 +62,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: '75px'
+  },
+  svg: {
+    fill: 'green',
   }
 });
 
