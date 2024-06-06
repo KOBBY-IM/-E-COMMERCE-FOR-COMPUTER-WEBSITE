@@ -3,19 +3,40 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 
-export const NavItem = ({ to, name }) => {
-  return(
-    <li>
-      <Link className={css(styles.link)} to={to}>
-        {name}
-      </Link>
-    </li>
-  )
+class NavItem extends React.Component {
+  render() {
+    const { to, children } = this.props;
+    return(
+      <li>
+        <Link className={css(styles.link)} to={to}>
+          {children}
+        </Link>
+      </li>
+    );
+  }
+}
+
+NavItem.proptypes = {
+  to: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.func
+  ]),
+};
+
+NavItem.defaultProps = {
+  to: '/',
+  children: <></>,
 };
 
 const styles = StyleSheet.create({
   link: {
     color: 'gray',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    fill: 'white',
+    stroke: 'white',
   }
 });
+
+export default NavItem;
