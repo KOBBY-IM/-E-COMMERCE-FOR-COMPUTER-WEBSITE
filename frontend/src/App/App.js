@@ -13,6 +13,7 @@ import CartWindow from '../Cart/CartWindow';
 import Cart from '../Cart/Cart';
 import cardImage from '../assets/favicon.png';
 import { hideCartDrawer } from '../actions/uiActionCreator';
+import { fetchProducts } from '../actions/productActionCreator';
 
 class App extends React.Component {
   constructor(props) {
@@ -31,9 +32,13 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.props.fetchProducts();
+  }
+
 
   render() {
-    const { displayDrawer, hideCartDrawer} = this.props;
+    const { displayDrawer, hideCartDrawer, listProducts} = this.props;
 
     return (
       <div className={css(styles.app)}>
@@ -48,7 +53,7 @@ class App extends React.Component {
             <Route path='/' 
             element={
               <div className={css(styles.card)}>
-                <ProductsPreview listProducts={this.listProducts}/>
+                <ProductsPreview listProducts={listProducts}/>
               </div>
             }
             />
@@ -94,12 +99,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    displayDrawer: state.get('isCartDrawerVisible')
+    displayDrawer: state.ui.get('isCartDrawerVisible'),
+    listProducts: state.products.get('products'),
   };
 };
 
 const mapDispacthToProps = {
   hideCartDrawer,
+  fetchProducts,
 }
 
 export default connect(mapStateToProps, mapDispacthToProps)(App);

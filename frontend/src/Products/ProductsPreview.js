@@ -13,14 +13,13 @@ class ProductsPreview extends React.Component {
     const { listProducts } = this.props
     return (
       <>
-        {listProducts.map(({id, img, title, proc, memory, memoryType, ram}) => (
+        {listProducts.map(({id, name, description, ram}) => (
           <div className={css(styles.card)} key={id}>
             <ProductCard
-            title={title}
-            img={img}
-            proc={proc}
-            memory={memory}
-            memoryType={memoryType}
+            name={name}
+            description={description}
+            // memory={memory}
+            // memoryType={memoryType}
             ram={ram}
             />
           </div>
@@ -30,9 +29,9 @@ class ProductsPreview extends React.Component {
   }
 }
 
-ProductsPreview.propTypes = {
-  listProducts: PropTypes.arrayOf(PropTypes.shape(ProductItemShape))
-}
+// ProductsPreview.propTypes = {
+//   listProducts: PropTypes.arrayOf(PropTypes.shape(ProductItemShape))
+// }
 
 const styles = StyleSheet.create({
   card: {
