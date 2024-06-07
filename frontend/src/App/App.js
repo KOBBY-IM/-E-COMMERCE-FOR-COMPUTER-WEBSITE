@@ -34,6 +34,8 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.fetchProducts();
+    console.log('fetching')
+    console.log(this.props.fetchProducts());
   }
 
 
