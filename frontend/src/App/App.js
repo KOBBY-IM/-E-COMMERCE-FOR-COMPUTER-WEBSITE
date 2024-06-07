@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 import { StyleSheet, css } from 'aphrodite';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -10,12 +11,12 @@ import SignUp from '../Login/SignUp';
 import Profil from '../Profil/Profil';
 import Cart from '../Cart/Cart';
 import cardImage from '../assets/favicon.png';
+import { displayCartDrawer, hideCartDrawer } from '../actions/uiActionCreator';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toogleDisplayCart = this.toogleDisplayCart.bind(this)
 
     this.listProducts = [
       {id: 1, title: 'Asus Rog', img: cardImage, proc: 'core i7', memory: 512, memoryType: 'SSD', ram: 32},
@@ -26,24 +27,21 @@ class App extends React.Component {
 
     this.state = {
       isLoggedIn: false,
-      displayDrawer: false,
     }
-  }
-
-  toogleDisplayCart() {
-    this.setState({displayDrawer: !this.state.displayDrawer})
   }
 
 
   render() {
+    const { displayDrawer, hideCartDrawer} = this.props;
+
     return (
       <div className={css(styles.app)}>
-        {this.state.displayDrawer &&
+        {displayDrawer &&
         <div className={css(styles.cart)}>
-          <Cart />
+          <Cart/>
         </div>}
-        <div>
-          <Header />
+        <div onClick={ displayDrawer ? (() => hideCartDrawer()) : (() => {})}>
+          <Header/>
           <Routes>
             <Route path='/' 
             element={
@@ -55,7 +53,7 @@ class App extends React.Component {
             <Route path='/login' element={<Login />}/>
             <Route path='/signup' element={<SignUp />}/>
           </Routes>
-          <button onClick={this.toogleDisplayCart}>Cart me</button>
+          <button >Uncart me</button>
           <Footer />
         </div>
       </div>
@@ -89,4 +87,14 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    displayDrawer: state.get('isCartDrawerVisible')
+  };
+};
+
+const mapDispacthToProps = {
+  hideCartDrawer,
+}
+
+export default connect(mapStateToProps, mapDispacthToProps)(App);

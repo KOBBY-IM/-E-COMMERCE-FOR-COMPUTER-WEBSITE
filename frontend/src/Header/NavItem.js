@@ -5,9 +5,9 @@ import { StyleSheet, css } from 'aphrodite';
 
 class NavItem extends React.Component {
   render() {
-    const { to, children } = this.props;
+    const { to, children, action } = this.props;
     return(
-      <li>
+      <li onClick={() => action()}>
         <Link className={css(styles.link)} to={to}>
           {children}
         </Link>
@@ -23,11 +23,13 @@ NavItem.proptypes = {
     PropTypes.element,
     PropTypes.func
   ]),
+  action: PropTypes.func,
 };
 
 NavItem.defaultProps = {
   to: '/',
   children: <></>,
+  action: () => {},
 };
 
 const styles = StyleSheet.create({
