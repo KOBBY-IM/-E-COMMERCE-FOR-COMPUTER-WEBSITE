@@ -36,12 +36,13 @@ class App extends React.Component {
 
     return (
       <div className={css(styles.app)}>
+        <Header/>
         {displayDrawer &&
         <div className={css(styles.cart)}>
           <Cart/>
         </div>}
-        <div onClick={ displayDrawer ? (() => hideCartDrawer()) : (() => {})}>
-          <Header/>
+        <div className={css(styles.body)}
+        onClick={ displayDrawer ? (() => hideCartDrawer()) : (() => {})}>
           <Routes>
             <Route path='/' 
             element={
@@ -53,9 +54,8 @@ class App extends React.Component {
             <Route path='/login' element={<Login />}/>
             <Route path='/signup' element={<SignUp />}/>
           </Routes>
-          <button >Uncart me</button>
-          <Footer />
         </div>
+        <Footer />
       </div>
   );
 }
@@ -84,6 +84,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     right: '0px',
     border: 'dashed 1px grey'
+  },
+  body: {
+    padding: '0 40px'
   }
 });
 

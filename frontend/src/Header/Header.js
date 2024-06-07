@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyleSheet, css } from 'aphrodite';
 import NavItem from './NavItem';
-import logo from '../assets/logo-white.png';
+import logo from '../assets/logo.png';
 import {
   SvgHome,
   SvgCart,
   SvgProfil,
-  SvgWishlist,
-  SvgSearch} from '../SVG/svg';
+  SvgSearch,
+  SvgSales
+} from '../SVG/svg';
 import { displayCartDrawer } from '../actions/uiActionCreator';
 
 class Header extends React.Component {
@@ -30,10 +31,10 @@ class Header extends React.Component {
         <div>
           <nav>
             <ul className={css(styles.navBar)}>
-              {/* <NavItem to='/' children={<SvgSearch />}/> */}
+              <NavItem to='/' children={<SvgSearch />}/>
               <NavItem to='/' children={<SvgHome />}/>
               <NavItem to='/login' children={<SvgProfil />} />
-              {/* <NavItem to='/' children={<SvgWishlist />}/> */}
+              <NavItem to='/' children={<SvgSales />}/>
               <NavItem action={displayCartDrawer} to='' children={<SvgCart />}/>
             </ul>
           </nav>
@@ -60,10 +61,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    height: '90px'
   },
   logo: {
-    height: '75px'
+    height: '130px',
   },
   svg: {
     fill: 'green',
