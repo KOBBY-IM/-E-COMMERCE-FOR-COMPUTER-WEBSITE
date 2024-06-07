@@ -56,7 +56,7 @@ app.use("/api/wishlist", wishlistRoute); // Use wishlist routes
 // });
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, './dist')));
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 // Start the server
 const port = process.env.PORT || 3000;
