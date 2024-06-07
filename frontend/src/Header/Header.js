@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { StyleSheet, css } from 'aphrodite';
 import NavItem from './NavItem';
 import logo from '../assets/logo-white.png';
@@ -10,6 +11,7 @@ import {
   SvgProfil,
   SvgWishlist,
   SvgSearch} from '../SVG/svg';
+import { displayCartDrawer } from '../actions/uiActionCreator';
 
 class Header extends React.Component {
   constructor(props) {
@@ -17,12 +19,12 @@ class Header extends React.Component {
   }
 
   render() {
-    const {toogleDrawer} = this.props;
+    const {displayCartDrawer} = this.props;
     return (
       <div className={css(styles.header)}>
         <div>
           <Link to="/">
-            <img className={css(styles.logo)} src={logo} alt='Logo' />
+            <img  className={css(styles.logo)} src={logo} alt='Logo' />
           </Link>
         </div>
         <div>
@@ -32,7 +34,7 @@ class Header extends React.Component {
               <NavItem to='/' children={<SvgHome />}/>
               <NavItem to='/login' children={<SvgProfil />} />
               {/* <NavItem to='/' children={<SvgWishlist />}/> */}
-              <NavItem to='/cart' children={<SvgCart />}/>
+              <NavItem action={displayCartDrawer} to='' children={<SvgCart />}/>
             </ul>
           </nav>
         </div>
@@ -68,4 +70,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Header;
+const mapDispacthToProps = {
+  displayCartDrawer,
+}
+
+export default connect(null, mapDispacthToProps)(Header);
