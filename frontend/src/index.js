@@ -7,9 +7,9 @@ import {
   createStore,
 } from 'redux';
 import { Map } from 'immutable';
-import { uiReducer, initialStateUi } from './reducers/uiReducer';
+import { userInteractionReducer, initialStateUi } from './reducers/uiReducer';
 
-const store = createStore(uiReducer, Map(initialStateUi));
+const store = createStore(userInteractionReducer, Map(initialStateUi));
 
 ReactDOM.render(
   <Provider store={store}>
