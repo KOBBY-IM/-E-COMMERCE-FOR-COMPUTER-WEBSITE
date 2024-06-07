@@ -50,10 +50,13 @@ app.use("/api/review", reviewRoute); // Use review routes
 app.use("/api/wishlist", wishlistRoute); // Use wishlist routes
 
 
-// Define a route for the root endpoint
-app.get("/", (req, res) => {
-    res.send("Express App is running");
-});
+// // Define a route for the root endpoint
+// app.get("/", (req, res) => {
+//     res.send("Express App is running");
+// });
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, './dist')));
 
 // Start the server
 const port = process.env.PORT || 3000;

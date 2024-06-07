@@ -6,7 +6,7 @@ export const initialStateProducts = {
   loading: false,
 };
 
-export const ProductsReducer = (state = Map(initialStateProducts), action) => {
+export const productsReducer = (state = Map(initialStateProducts), action) => {
   switch (action.type) {
     case FETCH_PRODUCTS_SUCCESS: {
       return state.set('products', action.products);
