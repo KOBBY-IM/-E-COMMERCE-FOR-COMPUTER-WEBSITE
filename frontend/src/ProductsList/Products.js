@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     display: 'block',
     margin: '1rem 1rem',
     padding: '1rem 1rem 0',
-    width: 'calc((100% / 4) - 3rem )',
+    width: 'calc((100% / 4) - 2rem )',
     border: 'solid 1px grey',
     borderRadius: '10px',
 

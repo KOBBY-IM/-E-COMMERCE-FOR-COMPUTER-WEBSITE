@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 		fontStyle: 'normal',
 		fontSize: '1rem',
 		paddingLeft: '20px',
-		gap: '20px'
+		gap: '20px',
   },
 	socialNav: {
 		listStyle: 'none',
@@ -69,12 +69,13 @@ const styles = StyleSheet.create({
 		// justifyContent: 'flex-end',
 		display: 'inline',
 		width: '100%',
-		gap: '10px'
+		gap: '10px',
 	},
 	sameLine: {
 		display: 'inline-block',
 		width: '50%',
-		height: '30px'
+		height: '30px',
+		padding: '0 50px'
 	},
 	liInline: {
 		// display: 'inline',
