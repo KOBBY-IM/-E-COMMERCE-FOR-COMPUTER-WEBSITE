@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite';
 import ProductCard from './ProductCard';
 import { ProductItemShape } from './ProductItemShape';
 
-class Products extends React.Component {
+class ProductsPreview extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -30,7 +30,7 @@ class Products extends React.Component {
   }
 }
 
-Products.propTypes = {
+ProductsPreview.propTypes = {
   listProducts: PropTypes.arrayOf(PropTypes.shape(ProductItemShape))
 }
 
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Products;
+export default ProductsPreview;

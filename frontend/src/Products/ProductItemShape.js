@@ -7,5 +7,9 @@ export const ProductItemShape = {
   proc: PropTypes.string,
   memory: PropTypes.number,
   memoryType: PropTypes.string,
-  ram: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  ram: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  price: PropTypes.number,
+  quantity: PropTypes.number,
+  description: PropTypes.string,
+  screen: PropTypes.string
 };
