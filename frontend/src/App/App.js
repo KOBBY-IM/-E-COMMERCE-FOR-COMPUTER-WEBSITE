@@ -5,13 +5,14 @@ import { connect } from 'react-redux'
 import { StyleSheet, css } from 'aphrodite';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import Products from '../ProductsList/Products';
+import ProductsPreview from '../Products/ProductsPreview';
 import Login from '../Login/Login';
 import SignUp from '../Login/SignUp';
 import Profil from '../Profil/Profil';
+import CartWindow from '../Cart/CartWindow';
 import Cart from '../Cart/Cart';
 import cardImage from '../assets/favicon.png';
-import { displayCartDrawer, hideCartDrawer } from '../actions/uiActionCreator';
+import { hideCartDrawer } from '../actions/uiActionCreator';
 
 class App extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class App extends React.Component {
         <Header/>
         {displayDrawer &&
         <div className={css(styles.cart)}>
-          <Cart/>
+          <CartWindow/>
         </div>}
         <div className={css(styles.body)}
         onClick={ displayDrawer ? (() => hideCartDrawer()) : (() => {})}>
@@ -47,12 +48,13 @@ class App extends React.Component {
             <Route path='/' 
             element={
               <div className={css(styles.card)}>
-                <Products listProducts={this.listProducts}/>
+                <ProductsPreview listProducts={this.listProducts}/>
               </div>
             }
             />
             <Route path='/login' element={<Login />}/>
             <Route path='/signup' element={<SignUp />}/>
+            <Route path='/cart' element={<Cart />}/>
           </Routes>
         </div>
         <Footer />

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 
@@ -9,19 +8,19 @@ class Cart extends React.Component {
   }
 
   render() {
+    const { } = this.props
     return (
-      <div className={css(styles.title)}>
-        <h2>Cart</h2>
-      </div>
+      <>
+        <div>
+          <h1>Cart</h1>
+        </div>
+      </>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  title: {
-    textAlign: 'center',
-  }
-});
 
+const styles = StyleSheet.create({
+});
 
 export default Cart;
