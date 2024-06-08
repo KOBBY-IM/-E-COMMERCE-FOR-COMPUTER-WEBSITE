@@ -55,6 +55,36 @@ router.delete('/:id', getProduct, async (req, res) => {
     }
 });
 
+// Search products by name
+router.get('/search/:query', async (req, res) => {
+    const query = req.params.query;
+    try {
+        // Perform case-insensitive search on product name
+        const products = await Product.find({
+            name: { $regex: query, $options: 'i' }
+        });
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Search products by category
+router.get('/category/:category', async (req, res) => {
+    const category = req.params.category;
+    try {
+        // Perform case-insensitive search on product category
+        const products = await Product.find({
+            category: { $regex: category, $options: 'i' }
+        });
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+
 // Middleware function to get single product by ID
 async function getProduct(req, res, next) {
     let product;
