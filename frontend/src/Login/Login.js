@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from '../HOC/withRouter';
+import { loginRequest } from '../actions/uiActionCreator';
 
 class Login extends React.Component {
   constructor(props) {
@@ -18,7 +21,10 @@ class Login extends React.Component {
 
   handleLoginSubmit(event) {
     event.preventDefault();
-    this.props.logIn(this.state.email, this.state.password);
+    this.props.login(this.state.email, this.state.password);
+    if (this.props.isLoggedIn){
+      this.props.router.navigate('/')
+    }
   }
   
   handleSubmitState() {
@@ -37,6 +43,9 @@ class Login extends React.Component {
   }
 
   render() {
+    const { 
+            login,
+          } = this.props
     return (
       <>
         <div className={css(styles.login)}>
@@ -84,9 +93,10 @@ const styles = StyleSheet.create({
   login: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '5px auto 0',
+    padding: '30px auto 30',
     alignItems: 'center',
     gap: '.8rem',
+    width: 'calc(width * 1.5)',
   },
   textBox: {
     borderRadius: '10px',
@@ -98,5 +108,14 @@ const styles = StyleSheet.create({
     borderRadius: '8px'
   }
 });
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.ui.get('isUserLoggedIn')
+  };
+};
 
-export default Login;
+const mapDispacthToProps = {
+  login: loginRequest
+}
+
+export default connect(mapStateToProps, mapDispacthToProps)(withRouter(Login));

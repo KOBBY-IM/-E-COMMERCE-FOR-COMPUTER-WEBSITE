@@ -5,9 +5,9 @@ import {
   HIDE_CART_DRAWER,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  SIGNUP,
-  SIGNUP_FAILURE,
-  SIGNUP_SUCCESS
+  REGISTER,
+  REGISTER_FAILURE,
+  REGISTER_SUCCESS
 } from './uiActionType';
 import 'node-fetch';
 
@@ -33,22 +33,22 @@ export const loginFailure = () => {
   };
 };
 
-export const signUp = (user) => {
+export const register = (user) => {
   return {
-    type: SIGNUP,
+    type: REGISTER,
     user
   };
 };
 
-export const signUpSuccess = () => {
+export const registerSuccess = () => {
   return {
-    type: SIGNUP_SUCCESS
+    type: REGISTER_SUCCESS
   };
 };
 
-export const signUpFailure = () => {
+export const registerFailure = () => {
   return {
-    type: SIGNUP_FAILURE
+    type: REGISTER_FAILURE
   };
 };
 
@@ -70,28 +70,68 @@ export const hideCartDrawer = () => {
   };
 };
 
-export const signUpRequest = (user) => {
+export const registerRequest = (user) => {
   return(dispatch) => {
     {
-      dispatch(signUp(user))
+      dispatch(register(user))
 
-      return fetch('')
+      return fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        body: {user}
+      })
       .then((res) => res.json())
-      .then((json) => dispatch(signUpSuccess()))
-      .catch((err) => dispatch(signUpFailure()));
+      .then((json) => dispatch(registerSuccess()))
+      .catch((err) => dispatch(registerFailure()));
     }
   }
 }
+
+// export const loginRequest = (email, password) => {
+//   return(dispatch) => {
+//     {
+//       dispatch(login(email, password))
+
+//       return fetch('http://localhost:5000/api/auth/login', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           email,
+//           password
+//         })
+//       })
+//       .then((res) => res.json())
+//       .then((json) => dispatch(loginSuccess()))
+//       .catch((err) => dispatch(loginFailure()));
+//     }
+//   }
+// }
 
 export const loginRequest = (email, password) => {
-  return(dispatch) => {
-    {
-      dispatch(login(email, password))
+  return async (dispatch) => {
+    dispatch(login(email, password));
 
-      return fetch('')
-      .then((res) => res.json())
-      .then((json) => dispatch(loginSuccess()))
-      .catch((err) => dispatch(loginFailure()));
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(response.message);
+      }
+
+      const data = await response.json();
+      dispatch(loginSuccess());
+    } catch (error) {
+      dispatch(loginFailure());
     }
-  }
-}
+  };
+};

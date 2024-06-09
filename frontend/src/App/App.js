@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { StyleSheet, css } from 'aphrodite';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -34,13 +34,16 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.fetchProducts();
-    console.log('fetching')
-    console.log(this.props.fetchProducts());
   }
 
 
   render() {
-    const { displayDrawer, hideCartDrawer, listProducts} = this.props;
+    const {
+            displayDrawer,
+            hideCartDrawer,
+            listProducts,
+            isLoggedIn,
+          } = this.props;
 
     return (
       <div className={css(styles.app)}>
@@ -59,6 +62,7 @@ class App extends React.Component {
               </div>
             }
             />
+            <Route path='/profil' element={<Profil />}/>
             <Route path='/login' element={<Login />}/>
             <Route path='/signup' element={<SignUp />}/>
             <Route path='/cart' element={<Cart />}/>
@@ -73,7 +77,6 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   app: {
     fontFamily: 'Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
-    height: '400vh'
   },
   card: {
     display: 'flex',
@@ -103,6 +106,7 @@ const mapStateToProps = (state) => {
   return {
     displayDrawer: state.ui.get('isCartDrawerVisible'),
     listProducts: state.products.get('products'),
+    isLoggedIn: state.ui.get('isUserLoggedIn'),
   };
 };
 

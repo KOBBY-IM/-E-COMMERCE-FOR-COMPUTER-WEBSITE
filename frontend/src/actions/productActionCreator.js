@@ -1,5 +1,5 @@
 import { FETCH_PRODUCTS_SUCCESS, SET_LOADING_STATE } from "./productActionType";
-import axios from 'axios';
+import Axios from 'axios';
 import 'node-fetch'
 
 export const setLoadingState = (loadingState) => {

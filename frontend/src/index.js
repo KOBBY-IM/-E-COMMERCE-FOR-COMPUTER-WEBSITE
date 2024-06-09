@@ -10,24 +10,14 @@ import {
   combineReducers,
 } from 'redux';
 import thunk from 'redux-thunk';
-import { Map } from 'immutable';
-import { userInteractionReducer, initialStateUi } from './reducers/uiReducer';
-import { initialStateProducts, productsReducer } from './reducers/productReducer';
+import { initialState, rootReducer } from './reducers/rootReducer';
 
-const initialState = {
-  ui: Map(initialStateUi),
-  products: Map(initialStateProducts)
-};
-
-const rootReducer = {
-  ui: userInteractionReducer,
-  products: productsReducer
-}
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   combineReducers(rootReducer),
   initialState,
-  applyMiddleware(thunk)
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 ReactDOM.render(
