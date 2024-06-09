@@ -1,21 +1,30 @@
-const router = require("express").Router();
+const express = require("express");
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 const User = require("../Models/User");
 
-router.get(`/`, async (req, res) =>{
+const router = express.Router();
+
+// Middleware to check if the ID is a valid ObjectId
+const isValidObjectId = (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({ message: "Invalid ID format" });
+    }
+    next();
+};
+
+// Get all users
+router.get(`/`, async (req, res) => {
     try {
         const userList = await User.find().select('-passwordHash');
-        if (!userList) {
-            return res.status(500).json({ success: false });
-        }
-        res.send(userList);
+        res.status(200).json(userList);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: error.message });
     }
 });
 
-router.get('/:id', async (req, res) => {
+// Get user by ID
+router.get('/:id', isValidObjectId, async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select('-passwordHash');
         if (!user) {
@@ -23,23 +32,21 @@ router.get('/:id', async (req, res) => {
         }
         res.status(200).send(user);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: error.message });
     }
 });
 
-router.put('/:id', async (req, res) => {
+// Update user
+router.put('/:id', isValidObjectId, async (req, res) => {
     try {
         const userExist = await User.findById(req.params.id);
         if (!userExist) {
             return res.status(404).json({ message: 'User not found.' });
         }
 
-        let newPassword;
+        let newPassword = userExist.passwordHash;
         if (req.body.password) {
             newPassword = bcrypt.hashSync(req.body.password, 10);
-        } else {
-            newPassword = userExist.passwordHash;
         }
 
         // Check if the new email address already exists in the database
@@ -73,24 +80,22 @@ router.put('/:id', async (req, res) => {
 
         res.send(user);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: error.message });
     }
 });
 
+// Get user count
 router.get(`/get/count`, async (req, res) => {
     try {
         const userCount = await User.countDocuments({});
-        res.send({
-            userCount: userCount
-        });
+        res.send({ userCount });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, error: error });
+        res.status(500).json({ success: false, error: error.message });
     }
 });
 
-router.delete('/:id', async (req, res) => {
+// Delete user
+router.delete('/:id', isValidObjectId, async (req, res) => {
     try {
         const deletedUser = await User.findOneAndDelete({ _id: req.params.id });
         if (!deletedUser) {
@@ -98,10 +103,8 @@ router.delete('/:id', async (req, res) => {
         }
         res.status(200).json({ success: true, message: 'User deleted successfully.' });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: error.message });
     }
 });
-
 
 module.exports = router;

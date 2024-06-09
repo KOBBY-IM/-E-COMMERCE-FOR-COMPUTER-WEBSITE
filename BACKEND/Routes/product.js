@@ -1,5 +1,16 @@
-const router = require('express').Router();
+const express = require('express');
+const mongoose = require('mongoose');
 const Product = require('../Models/Product');
+
+const router = express.Router();
+
+// Middleware to check if the ID is a valid ObjectId
+const isValidObjectId = (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({ message: "Invalid ID format" });
+    }
+    next();
+};
 
 // Get all products
 router.get('/', async (req, res) => {
@@ -12,8 +23,16 @@ router.get('/', async (req, res) => {
 });
 
 // Get a single product
-router.get('/:id', getProduct, (req, res) => {
-    res.json(res.product);
+router.get('/:id', isValidObjectId, async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
 // Create a new product
@@ -28,17 +47,22 @@ router.post('/', async (req, res) => {
 });
 
 // Update a product
-router.patch('/:id', getProduct, async (req, res) => {
+router.patch('/:id', isValidObjectId, async (req, res) => {
     try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
         if (req.body.name != null) {
-            res.product.name = req.body.name;
+            product.name = req.body.name;
         }
         if (req.body.description != null) {
-            res.product.description = req.body.description;
+            product.description = req.body.description;
         }
         // Update other fields as needed
 
-        const updatedProduct = await res.product.save();
+        const updatedProduct = await product.save();
         res.json(updatedProduct);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -46,59 +70,17 @@ router.patch('/:id', getProduct, async (req, res) => {
 });
 
 // Delete a product
-router.delete('/:id', getProduct, async (req, res) => {
+router.delete('/:id', isValidObjectId, async (req, res) => {
     try {
-        await res.product.remove();
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        await product.remove();
         res.json({ message: 'Product deleted' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
-
-// Search products by name
-router.get('/search/:query', async (req, res) => {
-    const query = req.params.query;
-    try {
-        // Perform case-insensitive search on product name
-        const products = await Product.find({
-            name: { $regex: query, $options: 'i' }
-        });
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// Search products by category
-router.get('/category/:category', async (req, res) => {
-    const category = req.params.category;
-    try {
-        // Perform case-insensitive search on product category
-        const products = await Product.find({
-            category: { $regex: category, $options: 'i' }
-        });
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-
-
-// Middleware function to get single product by ID
-async function getProduct(req, res, next) {
-    let product;
-    try {
-        product = await Product.findById(req.params.id);
-        if (product == null) {
-            return res.status(404).json({ message: 'Product not found' });
-        }
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
-
-    res.product = product;
-    next();
-}
 
 module.exports = router;

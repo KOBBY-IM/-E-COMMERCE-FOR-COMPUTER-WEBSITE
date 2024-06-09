@@ -54,27 +54,27 @@ const productSchema = mongoose.Schema({
     },
     cpu: {
         type: String,
-        required: true,
+        default: '', 
     },
     gpu: {
         type: String,
-        required: true,
+        default: '', 
     },
     ram: {
         type: String,
-        required: true,
+        default: '', 
     },
     storage: {
         type: String,
-        required: true,
+        default: '', 
     },
     motherboard: {
         type: String,
-        required: true,
+        default: '',  
     },
     psu: {
         type: String,
-        required: true,
+        default: '',  
     },
     coolingSystem: {
         type: String,
