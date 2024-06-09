@@ -1,14 +1,26 @@
 import React , { useState }from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../actions/uiActionCreator';
 
-const Profil = () => {
+const Profil = ({user}) => {
   return (
     <>
-      <p>Welcome</p>
-      <Link>Log Out</Link>
+      <h1>Welcome {user.name}</h1>
+      <Link to='/login' onClick={() => logout()}>Log Out</Link>
     </>
   );
 }
 
-export default Profil;
+const mapStateToProps = (state) => {
+  return {
+    user: state.ui.get('user'),
+  };
+};
+
+const mapDispacthToProps = {
+  logout
+}
+
+export default connect (mapStateToProps, mapDispacthToProps)(Profil);

@@ -5,15 +5,15 @@ import {
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
   LOGOUT,
-  SIGNUP,
-  SIGNUP_FAILURE,
-  SIGNUP_SUCCESS
+  REGISTER,
+  REGISTER_FAILURE,
+  REGISTER_SUCCESS
 } from "../actions/uiActionType";
 import { Map } from 'immutable';
 
 export const initialStateUi = {
   isCartDrawerVisible : false,
-  IsUSerLoggedIn: false,
+  isUserLoggedIn: false,
   user: null,
 };
 
@@ -25,44 +25,65 @@ export const userInteractionReducer = (state = Map(initialStateUi), action) => {
     case HIDE_CART_DRAWER: {
       return state.set('isCartDrawerVisible', false);
     }
+    case LOGIN: {
+      return state.set('user', action.user);
+    }
+    case LOGIN_SUCCESS: {
+      return state.set('isUserLoggedIn', true);
+    }
+    case LOGIN_FAILURE: {
+      return state.set('isUserLoggedIn', false);
+    }
+    case REGISTER: {
+      return state.set('user', action.user);
+    }
+    case REGISTER_SUCCESS: {
+      return state.set('isUserLoggedIn', true);
+    }
+    case REGISTER_FAILURE: {
+      return state.set('isUserLoggedIn', false);
+    }
+    case LOGOUT: {
+      return state.set('isUserLoggedIn', false).set('user', null);
+    }
     default: {
       return state;
     }
   }
 };
 
-export const userLoginReducer = (state = Map(initialStateUi), action) => {
-  switch (action.type) {
-    case LOGIN: {
-      return state.set('user', action.user);
-    }
-    case LOGIN_SUCCESS: {
-      return state.set('IsUSerLoggedIn', true);
-    }
-    case LOGIN_FAILURE: {
-      return state.set('IsUSerLoggedIn', false);
-    }
-  }
-};
+// export const userLoginReducer = (state = Map(initialStateUi), action) => {
+//   switch (action.type) {
+//     case LOGIN: {
+//       return state.set('user', action.user);
+//     }
+//     case LOGIN_SUCCESS: {
+//       return state.set('isUserLoggedIn', true);
+//     }
+//     case LOGIN_FAILURE: {
+//       return state.set('isUserLoggedIn', false);
+//     }
+//   }
+// };
 
-export const userSignUpReducer = (state = Map(initialStateUi), action) => {
-  switch (action.type) {
-    case SIGNUP: {
-      return state.set('user', action.user);
-    }
-    case SIGNUP_SUCCESS: {
-      return state.set('IsUSerLoggedIn', true);
-    }
-    case SIGNUP_FAILURE: {
-      return state.set('IsUSerLoggedIn', false);
-    }
-  }
-};
+// export const userRegisterReducer = (state = Map(initialStateUi), action) => {
+//   switch (action.type) {
+//     case REGISTER: {
+//       return state.set('user', action.user);
+//     }
+//     case REGISTER_SUCCESS: {
+//       return state.set('isUserLoggedIn', true);
+//     }
+//     case REGISTER_FAILURE: {
+//       return state.set('isUserLoggedIn', false);
+//     }
+//   }
+// };
 
-export const userLogoutReducer = (state = Map(initialStateUi), action) => {
-  switch (action.type) {
-    case LOGOUT: {
-      return state.set('IsUSerLoggedIn', false).set('user', null);
-    }
-  }
-};
+// export const userLogoutReducer = (state = Map(initialStateUi), action) => {
+//   switch (action.type) {
+//     case LOGOUT: {
+//       return state.set('isUserLoggedIn', false).set('user', null);
+//     }
+//   }
+// };
