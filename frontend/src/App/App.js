@@ -11,6 +11,7 @@ import SignUp from '../Login/SignUp';
 import Profil from '../Profil/Profil';
 import CartWindow from '../Cart/CartWindow';
 import Cart from '../Cart/Cart';
+import ProductPage from '../Products/ProductPage';
 import cardImage from '../assets/favicon.png';
 import { hideCartDrawer } from '../actions/uiActionCreator';
 import { fetchProducts } from '../actions/productActionCreator';
@@ -53,15 +54,19 @@ class App extends React.Component {
           <CartWindow/>
         </div>}
         <div className={css(styles.body)}
-        onClick={ displayDrawer ? (() => hideCartDrawer()) : (() => {})}>
+        onClick={ displayDrawer ? (hideCartDrawer) : (() => {})}>
           <Routes>
             <Route path='/' 
             element={
+              <>
               <div className={css(styles.card)}>
                 <ProductsPreview listProducts={listProducts}/>
               </div>
+              {/* <ProductPage product={listProducts[listProducts.findIndex((product) => product.name.includes('Google'))]}/> */}
+              </>
             }
             />
+            <Route path='/product/:id' element={<ProductPage listProduct={listProducts}/>}/>
             <Route path='/profil' element={<Profil />}/>
             <Route path='/login' element={<Login />}/>
             <Route path='/signup' element={<SignUp />}/>
@@ -110,9 +115,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispacthToProps = {
+const mapDispatchToProps = {
   hideCartDrawer,
   fetchProducts,
 }
 
-export default connect(mapStateToProps, mapDispacthToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

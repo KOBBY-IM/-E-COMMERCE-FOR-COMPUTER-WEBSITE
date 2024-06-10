@@ -8,7 +8,7 @@ const Profil = ({user}) => {
   return (
     <>
       <h1>Welcome {user.name}</h1>
-      <Link to='/login' onClick={() => logout()}>Log Out</Link>
+      <Link to='/login' onClick={logout}>Log Out</Link>
     </>
   );
 }
@@ -19,8 +19,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispacthToProps = {
+const mapDispatchToProps = {
   logout
 }
 
-export default connect (mapStateToProps, mapDispacthToProps)(Profil);
+export default connect(mapStateToProps, mapDispatchToProps)(Profil);

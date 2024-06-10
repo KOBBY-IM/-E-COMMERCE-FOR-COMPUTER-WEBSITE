@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 import ProductCard from './ProductCard';
 import { ProductItemShape } from './ProductItemShape';
+import { Link } from 'react-router-dom';
 
 class ProductsPreview extends React.Component {
   constructor(props) {
@@ -13,25 +14,28 @@ class ProductsPreview extends React.Component {
     const { listProducts } = this.props
     return (
       <>
-        {listProducts.map(({id, name, description, ram}) => (
-          <div className={css(styles.card)} key={id}>
-            <ProductCard
-            name={name}
-            description={description}
-            // memory={memory}
-            // memoryType={memoryType}
-            ram={ram}
-            />
-          </div>
+        {listProducts.map(({_id, name, description, ram, cpu, storage, price}) => (
+          <Link key={_id} className={css(styles.card, styles.hover) } to={`/product/${_id}`}>
+            <div>
+              <ProductCard
+              name={name}
+              description={description}
+              cpu={cpu}
+              storage={storage}
+              price={price}
+              ram={ram}
+              />
+            </div>
+          </Link>
         ))}
       </>
     );
   }
 }
 
-// ProductsPreview.propTypes = {
-//   listProducts: PropTypes.arrayOf(PropTypes.shape(ProductItemShape))
-// }
+ProductsPreview.propTypes = {
+  listProducts: PropTypes.arrayOf(PropTypes.shape(ProductItemShape))
+}
 
 const styles = StyleSheet.create({
   card: {
@@ -41,6 +45,8 @@ const styles = StyleSheet.create({
     width: 'calc((100% / 4) - 2rem )',
     border: 'solid 1px grey',
     borderRadius: '10px',
+    textDecoration: 'none',
+    color: 'black'
 
   },
   cardImage: {
@@ -58,7 +64,12 @@ const styles = StyleSheet.create({
   specs: {
     listStyle: 'none',
     paddingLeft: '0',
-  }
+  },
+  hover: {
+    ':hover': {
+        cursor: 'pointer'
+    }
+},
 });
 
 export default ProductsPreview;
