@@ -6,7 +6,7 @@ const ProductCard = ({ name, cpu, storage, price, ram, description }) => {
   return (
     <>
       <img className={css(styles.cardImage)} src='' alt='product'/>
-      <em className={css(styles.name)}>{name} | {'|' && cpu} | {storage} | {ram}</em>
+      <em className={css(styles.name)}>{name} | {cpu} | {storage} | {ram}</em>
       {/* <em className={css(styles.name)}>{name} | {description} </em> */}
       <ul className={css(styles.specs)}>
         <li>Price: {price} $</li>

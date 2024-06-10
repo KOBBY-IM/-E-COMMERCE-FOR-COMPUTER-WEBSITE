@@ -20,7 +20,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const {displayCartDrawer} = this.props;
+    const {displayCartDrawer, isLoggedIn} = this.props;
     return (
       <div className={css(styles.header)}>
         <div>
@@ -33,7 +33,7 @@ class Header extends React.Component {
             <ul className={css(styles.navBar)}>
               {/* <NavItem to='/' children={<SvgSearch />}/> */}
               <NavItem to='/' children={<SvgHome />}/>
-              <NavItem to='/login' children={<SvgProfil />} />
+              <NavItem to={isLoggedIn ? '/profil' : '/login'} children={<SvgProfil />} />
               {/* <NavItem to='/' children={<SvgSales />}/> */}
               <NavItem action={displayCartDrawer} to='' children={<SvgCart />}/>
             </ul>
@@ -72,8 +72,14 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.ui.get('isUserLoggedIn'),
+  };
+};
+
 const mapDispacthToProps = {
   displayCartDrawer,
 }
 
-export default connect(null, mapDispacthToProps)(Header);
+export default connect(mapStateToProps, mapDispacthToProps)(Header);

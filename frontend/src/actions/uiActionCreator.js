@@ -21,9 +21,10 @@ export const login = (email, password) => {
   };
 };
 
-export const loginSuccess = () => {
+export const loginSuccess = (user) => {
   return {
-    type: LOGIN_SUCCESS
+    type: LOGIN_SUCCESS,
+    user
   };
 };
 
@@ -80,7 +81,7 @@ export const registerRequest = (user) => {
         body: {user}
       })
       .then((res) => res.json())
-      .then((json) => dispatch(registerSuccess()))
+      .then((json) => dispatch(registerSuccess(json)))
       .catch((err) => dispatch(registerFailure()));
     }
   }
@@ -102,7 +103,7 @@ export const registerRequest = (user) => {
 //         })
 //       })
 //       .then((res) => res.json())
-//       .then((json) => dispatch(loginSuccess()))
+//       .then((json) => dispatch(loginSuccess(json)))
 //       .catch((err) => dispatch(loginFailure()));
 //     }
 //   }
@@ -125,11 +126,12 @@ export const loginRequest = (email, password) => {
       });
 
       if (!response.ok) {
-        throw new Error(response.message);
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to log in');
       }
 
       const data = await response.json();
-      dispatch(loginSuccess());
+      dispatch(loginSuccess(data)); // Assuming response contains user data
     } catch (error) {
       dispatch(loginFailure());
     }

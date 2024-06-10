@@ -12,21 +12,13 @@ import Profil from '../Profil/Profil';
 import CartWindow from '../Cart/CartWindow';
 import Cart from '../Cart/Cart';
 import ProductPage from '../Products/ProductPage';
-import cardImage from '../assets/favicon.png';
 import { hideCartDrawer } from '../actions/uiActionCreator';
 import { fetchProducts } from '../actions/productActionCreator';
+import PrivateRoute from '../HOC/PrivateRoute';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-
-    this.listProducts = [
-      {id: 1, title: 'Asus Rog', img: cardImage, proc: 'core i7', memory: 512, memoryType: 'SSD', ram: 32},
-      {id: 2, title: 'Acer', img: cardImage, proc: 'core i7', memory: 1024, memoryType: 'SSD', ram: 8},
-      {id: 3, title: 'Hp pavilion', img: cardImage, proc: 'core i7', memory: 100, memoryType: 'SSD', ram: 8},
-      {id: 4, title: 'MacBook', img: cardImage, proc: 'core i7', memory: 1000, memoryType: 'SSD', ram: 8},
-    ];
 
     this.state = {
       isLoggedIn: false,
@@ -67,10 +59,10 @@ class App extends React.Component {
             }
             />
             <Route path='/product/:id' element={<ProductPage listProduct={listProducts}/>}/>
-            <Route path='/profil' element={<Profil />}/>
             <Route path='/login' element={<Login />}/>
             <Route path='/signup' element={<SignUp />}/>
             <Route path='/cart' element={<Cart />}/>
+            <Route path="/profil" element={<PrivateRoute element={Profil} />} />
           </Routes>
         </div>
         <Footer />

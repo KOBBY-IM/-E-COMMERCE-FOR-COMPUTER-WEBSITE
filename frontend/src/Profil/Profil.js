@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/uiActionCreator';
 
-const Profil = ({user}) => {
+const Profil = ({user, logout}) => {
   return (
     <>
-      <h1>Welcome {user.name}</h1>
+      <h1>Welcome {user.auth.firstName}</h1>
       <Link to='/login' onClick={logout}>Log Out</Link>
     </>
   );
