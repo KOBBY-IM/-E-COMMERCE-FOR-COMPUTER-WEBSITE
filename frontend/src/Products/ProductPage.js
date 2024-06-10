@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 import { ProductItemShape } from './ProductItemShape';
 import { useParams } from 'react-router-dom';
+import ProductSpecRow from './ProductSpecRow';
 
 const ProductPage = ({ listProduct }) => {
   const { id } = useParams()
@@ -13,17 +14,25 @@ const ProductPage = ({ listProduct }) => {
         <img className={css(styles.cardImage)} src='' alt='product'/>
       </div>
       <div>
-        <h1>Title {product.name}</h1>
+        <h1>{product.name}</h1>
         <p>Price: {product.price} $</p>
-        <div>
-          <button>-</button>
-          <label>1</label>
-          <button>+</button>
-        </div>
         <button className={css(styles.button)}>Add to Cart</button>
         <h2>Description</h2>
         <p>{product.description}</p>
-        <table></table>
+        <table id='specList' className={css(styles.table)}>
+          <>
+          <thead>
+            <ProductSpecRow spec={product.name} isHeader={true} />
+            <ProductSpecRow spec="Caracteristics" value="Value" isHeader={true} />
+          </thead>
+          <tbody>
+              { product.storage && <ProductSpecRow spec='storage' value={product.storage} />}
+              { product.cpu && <ProductSpecRow spec='cpu' value={product.cpu} />}
+              { product.ram && <ProductSpecRow spec='ram' value={product.ram} />}
+              { product.gpu && <ProductSpecRow spec='gpu' value={product.gpu} />}
+          </tbody>
+          </>
+        </table>
       </div>
     </div>
   );
@@ -55,19 +64,24 @@ const styles = StyleSheet.create({
     marginLeft: '40px',
   },
   button: {
-    position: 'absolute',
-    bottom: '20px',
     borderRadius: '30px',
     fontWeight: 'bold',
-    backgroundColor: 'dark blue',
+    backgroundColor: 'blue',
     fontSize: '1.2rem',
     height: '40px',
     width: '150px',
     textAlign: 'center',
     color: 'white',
     fontStyle: 'normal',
-    left: '20px'
   },
+  table: {
+    display: "table",
+    borderCollapse: "collapse",
+    fontSize: "1.2rem",
+    width: "50vw",
+    margin: "2em auto",
+    border: "1px solid black"
+  }
 });
 
 export default ProductPage;
