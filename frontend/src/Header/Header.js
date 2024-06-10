@@ -31,10 +31,10 @@ class Header extends React.Component {
         <div>
           <nav>
             <ul className={css(styles.navBar)}>
-              <NavItem to='/' children={<SvgSearch />}/>
+              {/* <NavItem to='/' children={<SvgSearch />}/> */}
               <NavItem to='/' children={<SvgHome />}/>
               <NavItem to='/login' children={<SvgProfil />} />
-              <NavItem to='/' children={<SvgSales />}/>
+              {/* <NavItem to='/' children={<SvgSales />}/> */}
               <NavItem action={displayCartDrawer} to='' children={<SvgCart />}/>
             </ul>
           </nav>

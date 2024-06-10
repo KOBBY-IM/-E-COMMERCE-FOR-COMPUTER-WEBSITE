@@ -19,12 +19,16 @@ class Login extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.isLoggedIn && !prevProps.isLoggedIn) {
+      // Navigate to home after successful login
+      this.props.router.navigate('/profil');
+    }
+  }
+
   handleLoginSubmit(event) {
     event.preventDefault();
     this.props.login(this.state.email, this.state.password);
-    if (this.props.isLoggedIn){
-      this.props.router.navigate('/')
-    }
   }
   
   handleSubmitState() {
@@ -114,8 +118,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispacthToProps = {
+const mapDispatchToProps = {
   login: loginRequest
 }
 
-export default connect(mapStateToProps, mapDispacthToProps)(withRouter(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
