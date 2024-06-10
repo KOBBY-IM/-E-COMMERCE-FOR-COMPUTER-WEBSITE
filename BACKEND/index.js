@@ -8,8 +8,9 @@ const path = require("path"); // Import the path module for file path operations
 const cors = require("cors"); // Import CORS for enabling cross-origin requests
 const dotenv = require("dotenv"); // Import dotenv for environment variables
 const bcrypt = require("bcrypt"); // Import bcrypt for password hashing
-const upload = multer(); // Create an instance of Multer for file uploads
 
+// Load environment variables from a .env file
+dotenv.config();
 
 // Import routes
 const userRoute = require("./Routes/user"); // Import user routes
@@ -20,11 +21,6 @@ const orderRoute = require("./Routes/order"); // Import order routes
 const cartRoute = require("./Routes/cart"); // Import cart routes
 const reviewRoute = require("./Routes/review"); // Import review routes
 const wishlistRoute = require("./Routes/wishlist"); // Import wishlist routes
-
-
-
-// Load environment variables from a .env file
-dotenv.config();
 
 // Connect to MongoDB database
 mongoose.connect(process.env.MONGO_COMM)
@@ -49,20 +45,8 @@ app.use("/api/cart", cartRoute); // Use cart routes
 app.use("/api/review", reviewRoute); // Use review routes
 app.use("/api/wishlist", wishlistRoute); // Use wishlist routes
 
-
-// // Define a route for the root endpoint
-// app.get("/", (req, res) => {
-//     res.send("Express App is running");
-// });
-
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server Running on Port ${port}`);
-});
 
 // Configure image storage using Multer
 const storage = multer.diskStorage({
@@ -71,6 +55,7 @@ const storage = multer.diskStorage({
         cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`); // Define the filename for uploaded images
     }
 });
+const upload = multer({ storage });
 
 // Create an endpoint for serving uploaded images
 app.use('/images', express.static('upload/images'));
@@ -81,4 +66,10 @@ app.post("/upload", upload.single('product'), (req, res) => {
         success: 1,
         image_url: `http://localhost:${port}/images/${req.file.filename}`
     });
+});
+
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server Running on Port ${port}`);
 });
