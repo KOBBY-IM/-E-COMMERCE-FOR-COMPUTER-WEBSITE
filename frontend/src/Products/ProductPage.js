@@ -16,11 +16,11 @@ const ProductPage = ({ listProduct }) => {
         <h1>Title {product.name}</h1>
         <p>Price: {product.price} $</p>
         <div>
-          <button>+</button>
-          <button>+</button>
           <button>-</button>
+          <label>1</label>
+          <button>+</button>
         </div>
-        <button>Add to Cart</button>
+        <button className={css(styles.button)}>Add to Cart</button>
         <h2>Description</h2>
         <p>{product.description}</p>
         <table></table>
@@ -53,6 +53,20 @@ const styles = StyleSheet.create({
   },
   details: {
     marginLeft: '40px',
+  },
+  button: {
+    position: 'absolute',
+    bottom: '20px',
+    borderRadius: '30px',
+    fontWeight: 'bold',
+    backgroundColor: 'dark blue',
+    fontSize: '1.2rem',
+    height: '40px',
+    width: '150px',
+    textAlign: 'center',
+    color: 'white',
+    fontStyle: 'normal',
+    left: '20px'
   },
 });
 

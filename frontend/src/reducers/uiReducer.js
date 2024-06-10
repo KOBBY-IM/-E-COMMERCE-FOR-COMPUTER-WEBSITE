@@ -29,7 +29,7 @@ export const userInteractionReducer = (state = Map(initialStateUi), action) => {
       return state.set('user', action.user);
     }
     case LOGIN_SUCCESS: {
-      return state.set('isUserLoggedIn', true);
+      return state.set('isUserLoggedIn', true).set('user', action.user);
     }
     case LOGIN_FAILURE: {
       return state.set('isUserLoggedIn', false);
