@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const User = require("../Models/User");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ const isValidObjectId = (req, res, next) => {
 };
 
 // Get all users
-router.get(`/`, async (req, res) => {
+router.get(`/`, authMiddleware, async (req, res) => {
     try {
         const userList = await User.find().select('-passwordHash');
         res.status(200).json(userList);
@@ -24,7 +25,7 @@ router.get(`/`, async (req, res) => {
 });
 
 // Get user by ID
-router.get('/:id', isValidObjectId, async (req, res) => {
+router.get('/:id', [isValidObjectId, authMiddleware], async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select('-passwordHash');
         if (!user) {
@@ -37,7 +38,7 @@ router.get('/:id', isValidObjectId, async (req, res) => {
 });
 
 // Update user
-router.put('/:id', isValidObjectId, async (req, res) => {
+router.put('/:id', [isValidObjectId, authMiddleware], async (req, res) => {
     try {
         const userExist = await User.findById(req.params.id);
         if (!userExist) {
@@ -85,7 +86,7 @@ router.put('/:id', isValidObjectId, async (req, res) => {
 });
 
 // Get user count
-router.get(`/get/count`, async (req, res) => {
+router.get(`/get/count`, authMiddleware, async (req, res) => {
     try {
         const userCount = await User.countDocuments({});
         res.send({ userCount });
@@ -95,7 +96,7 @@ router.get(`/get/count`, async (req, res) => {
 });
 
 // Delete user
-router.delete('/:id', isValidObjectId, async (req, res) => {
+router.delete('/:id', [isValidObjectId, authMiddleware], async (req, res) => {
     try {
         const deletedUser = await User.findOneAndDelete({ _id: req.params.id });
         if (!deletedUser) {
