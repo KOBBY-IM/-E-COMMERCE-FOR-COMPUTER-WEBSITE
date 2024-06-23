@@ -54,6 +54,12 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = (state) => {
+  return {
+    cart: state.carts.get('product')
+  };
+};
+
 const mapDispacthToProps = {
   hideCartDrawer,
 }

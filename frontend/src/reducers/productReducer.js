@@ -9,7 +9,8 @@ export const initialStateProducts = {
 export const productsReducer = (state = Map(initialStateProducts), action) => {
   switch (action.type) {
     case FETCH_PRODUCTS_SUCCESS: {
-      return state.set('products', action.products);
+      const data = action.products.map((product) => ({...product, images: 'http://localhost:8564/assets/' + product._id + '.jpeg'}) )
+      return state.set('products', data);
     }
     case SET_LOADING_STATE: {
       return state.set('loading', action.loadingState);

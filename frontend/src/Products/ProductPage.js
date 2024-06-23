@@ -4,19 +4,26 @@ import { StyleSheet, css } from 'aphrodite';
 import { ProductItemShape } from './ProductItemShape';
 import { useParams } from 'react-router-dom';
 import ProductSpecRow from './ProductSpecRow';
+import { connect } from 'react-redux';
+import { AddCartItem } from '../actions/cartActionCreator';
 
-const ProductPage = ({ listProduct }) => {
+
+const ProductPage = ({ listProduct, isLoggedIn, AddCartItem }) => {
   const { id } = useParams()
   const product = listProduct.find((product) => product._id === id)
   return (
     <div className={css(styles.productContainer)}>
       <div>
-        <img className={css(styles.cardImage)} src='' alt='product'/>
+        <img className={css(styles.cardImage)} src={product.images} alt='product'/>
       </div>
       <div>
         <h1>{product.name}</h1>
         <p>Price: {product.price} $</p>
-        <button className={css(styles.button)}>Add to Cart</button>
+        <button
+        className={!isLoggedIn ? css(styles.disabled) : css(styles.button)} 
+        disabled={!isLoggedIn}
+        onClick={AddCartItem}
+        >Add to Cart</button>
         <h2>Description</h2>
         <p>{product.description}</p>
         <table id='specList' className={css(styles.table)}>
@@ -81,7 +88,28 @@ const styles = StyleSheet.create({
     width: "50vw",
     margin: "2em auto",
     border: "1px solid black"
+  },
+  disabled: {
+    borderRadius: '30px',
+    fontWeight: 'bold',
+    fontSize: '1.2rem',
+    height: '40px',
+    width: '150px',
+    textAlign: 'center',
+    color: 'black',
+    fontStyle: 'normal',
+    backgroundColor: 'grey'
   }
 });
 
-export default ProductPage;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.ui.get('isUserLoggedIn'),
+  };
+};
+
+const mapDispatchToProps = {
+  AddCartItem
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);

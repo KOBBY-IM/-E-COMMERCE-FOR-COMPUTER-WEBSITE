@@ -54,7 +54,6 @@ class App extends React.Component {
               <div className={css(styles.card)}>
                 <ProductsPreview listProducts={listProducts}/>
               </div>
-              {/* <ProductPage product={listProducts[listProducts.findIndex((product) => product.name.includes('Google'))]}/> */}
               </>
             }
             />

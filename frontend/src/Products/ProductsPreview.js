@@ -14,16 +14,11 @@ class ProductsPreview extends React.Component {
     const { listProducts } = this.props
     return (
       <>
-        {listProducts.map(({_id, name, description, ram, cpu, storage, price}) => (
-          <Link key={_id} className={css(styles.card, styles.hover) } to={`/product/${_id}`}>
+        {listProducts.map((product) => (
+          <Link key={product._id} className={css(styles.card, styles.hover) } to={`/product/${product._id}`}>
             <div>
               <ProductCard
-              name={name}
-              description={description}
-              cpu={cpu}
-              storage={storage}
-              price={price}
-              ram={ram}
+              product={product}
               />
             </div>
           </Link>
